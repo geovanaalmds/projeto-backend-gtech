@@ -25,4 +25,11 @@ const CategoryModel = sequelize.define('Category', {
   timestamps: true
 });
 
+CategoryModel.associate = (models) => {
+  CategoryModel.hasMany(models.ProductandCategoryModel, {
+    foreignKey: 'category_id',
+    as: 'category_product_links'
+  })
+}
+
 module.exports = CategoryModel;

@@ -2,7 +2,7 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
 const bcrypt = require('bcrypt');
 
-const saltRounds = 10;
+const saltRounds = 10; //salt
 
 const UserModel = sequelize.define('User', {
   id: { 

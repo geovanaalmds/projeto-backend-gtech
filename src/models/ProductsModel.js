@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
 
-const ProductModel = sequelize.define('Product', {
+const ProductsModel = sequelize.define('Products', {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -47,4 +47,21 @@ const ProductModel = sequelize.define('Product', {
   timestamps: true
 });
 
-module.exports = ProductModel;
+ProductsModel.associate = (models) => {
+  ProductsModel.hasMany(models.ProductOptionModel, {
+    foreignKey: 'product_id',
+    as: 'options'
+  });
+
+  ProductsModel.hasMany(models.ProductImageModel, {
+    foreignKey: 'product_id',
+    as: 'images'
+  });
+
+  ProductsModel.hasMany(models.ProductandCategoryModel, {
+    foreignKey: 'product_id',
+    as: 'product_category_links'
+  });
+};
+
+module.exports = ProductsModel;

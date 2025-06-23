@@ -1,12 +1,14 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
+const ProductsModel = require('./ProductsModel');
+const CategoriesModel = require('./CategoriesModel');
 
 const ProductandCategoryModel = sequelize.define('ProductandCategory', {
   product_id: {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
-        model: 'products',
+        model: ProductsModel,
         key: 'id'
     },
     onDelete: 'CASCADE'
@@ -15,7 +17,7 @@ const ProductandCategoryModel = sequelize.define('ProductandCategory', {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
-        model: 'categories',
+        model: CategoriesModel,
         key: 'id'
     },
     onDelete: 'CASCADE'
@@ -23,6 +25,21 @@ const ProductandCategoryModel = sequelize.define('ProductandCategory', {
   
 }, {
   tableName: 'product_and_category',
+  timestamps: false
 });
+
+ProductandCategoryModel.associate = (models) => {
+  ProductandCategoryModel.belongsTo(models.ProductsModel, {
+    foreignKey: 'product_id',
+    as: 'product'
+  });
+
+  ProductandCategoryModel.belongsTo(models.CategoriesModel, {
+    foreignKey: 'category_id',
+    as: 'category'
+  });
+};
+
+
 
 module.exports = ProductandCategoryModel;

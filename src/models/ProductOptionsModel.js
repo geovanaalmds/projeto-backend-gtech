@@ -1,5 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
+const ProductsModel = require('./ProductsModel');
 
 const ProductOptionModel = sequelize.define('ProductOption', {
   id: {
@@ -11,7 +12,7 @@ const ProductOptionModel = sequelize.define('ProductOption', {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
-        model: 'products',
+        model: ProductsModel,
         key: 'id'
     },
     onDelete: 'CASCADE'
@@ -41,7 +42,15 @@ const ProductOptionModel = sequelize.define('ProductOption', {
   }
 }, {
   tableName: 'product_options',
+  timestamps: false
 });
+
+ProductOptionModel.associate = (models) => {
+  ProductOptionModel.belongsTo(models.ProductsModel, {
+    foreignKey: 'product_id',
+    as: 'product'
+  });
+};
 
 
 module.exports = ProductOptionModel;
