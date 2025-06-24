@@ -25,7 +25,6 @@ class UsersController {
             });
         }catch (error) {
             console.error('Erro ao buscar usuário:', error);
-            return response.status(500).json({ error: 'Erro interno do servidor' });
         }
     }
 
