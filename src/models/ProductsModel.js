@@ -1,6 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
 
+//Modelo de Produtos
 const ProductsModel = sequelize.define('Products', {
   id: {
     type: DataTypes.INTEGER,
@@ -47,17 +48,21 @@ const ProductsModel = sequelize.define('Products', {
   timestamps: true
 });
 
+//Relacionamento do Produto com outras tabelas
 ProductsModel.associate = (models) => {
-  ProductsModel.hasMany(models.ProductOptionModel, {
+  //Relacionamento ProductsModel e ProductOptionsModel
+  ProductsModel.hasMany(models.ProductOptionsModel, {
     foreignKey: 'product_id',
     as: 'options'
   });
 
+  //Relacionamento ProductsModel e ProductImage
   ProductsModel.hasMany(models.ProductImageModel, {
     foreignKey: 'product_id',
     as: 'images'
   });
 
+  //Relacionamento ProductsModel e ProductandCategoryModel
   ProductsModel.hasMany(models.ProductandCategoryModel, {
     foreignKey: 'product_id',
     as: 'product_category_links'

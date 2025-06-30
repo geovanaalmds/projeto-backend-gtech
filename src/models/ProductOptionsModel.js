@@ -2,6 +2,7 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
 const ProductsModel = require('./ProductsModel');
 
+//Modelo das opções de produto
 const ProductOptionModel = sequelize.define('ProductOption', {
   id: {
     type: DataTypes.INTEGER,
@@ -12,10 +13,10 @@ const ProductOptionModel = sequelize.define('ProductOption', {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
-        model: ProductsModel,
+        model: ProductsModel, //Referência ao modelo de produtos
         key: 'id'
     },
-    onDelete: 'CASCADE'
+    onDelete: 'CASCADE' // Apaga a opção se o produto for removido
   },
   title: {
     type: DataTypes.STRING,
@@ -45,6 +46,7 @@ const ProductOptionModel = sequelize.define('ProductOption', {
   timestamps: false
 });
 
+//Define os relacionamentos
 ProductOptionModel.associate = (models) => {
   ProductOptionModel.belongsTo(models.ProductsModel, {
     foreignKey: 'product_id',

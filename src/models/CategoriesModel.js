@@ -1,6 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
 
+//Modelo de categoria
 const CategoryModel = sequelize.define('Category', {
   id: {
     type: DataTypes.INTEGER,
@@ -25,6 +26,7 @@ const CategoryModel = sequelize.define('Category', {
   timestamps: true
 });
 
+//Relacionamento de Categorias com Produtos
 CategoryModel.associate = (models) => {
   CategoryModel.hasMany(models.ProductandCategoryModel, {
     foreignKey: 'category_id',

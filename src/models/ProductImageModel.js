@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
-const ProductsModel = require('./ProductsModel');
 
+//Modelo das imagens dos produtos
 const ProductImageModel = sequelize.define('ProductImage', {
   id: {
     type: DataTypes.INTEGER,
@@ -12,10 +12,10 @@ const ProductImageModel = sequelize.define('ProductImage', {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
-        model: ProductsModel, //chave estrangeira
+        model: 'products', // Referência a tabela products
         key: 'id'
     },
-    onDelete: 'CASCADE' //apaga as imagens se o produto for excluído
+    onDelete: 'CASCADE' //Apaga as imagens se o produto for removido
   },
   enabled: {
     type: DataTypes.BOOLEAN,
@@ -31,6 +31,7 @@ const ProductImageModel = sequelize.define('ProductImage', {
   timestamps: false
 });
 
+//Define o relacionamento
 ProductImageModel.associate = (models) => {
   ProductImageModel.belongsTo(models.ProductsModel, {
     foreignKey: 'product_id',

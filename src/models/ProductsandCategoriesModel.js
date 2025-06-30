@@ -1,26 +1,25 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
-const ProductsModel = require('./ProductsModel');
-const CategoriesModel = require('./CategoriesModel');
 
+//Modelo da tabela de associação entre produtos e categorias
 const ProductandCategoryModel = sequelize.define('ProductandCategory', {
   product_id: {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
-        model: ProductsModel,
+        model: 'products', //Referência a tabela products
         key: 'id'
     },
-    onDelete: 'CASCADE'
+    onDelete: 'CASCADE' //Apaga a ligação se o produto for removido
   },
   category_id: {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
-        model: CategoriesModel,
+        model: 'categories', //Referência a tabela categories
         key: 'id'
     },
-    onDelete: 'CASCADE'
+    onDelete: 'CASCADE' //Apaga a ligação se a categoria for removida
   }
   
 }, {
@@ -28,6 +27,7 @@ const ProductandCategoryModel = sequelize.define('ProductandCategory', {
   timestamps: false
 });
 
+//Define os relacionamentos
 ProductandCategoryModel.associate = (models) => {
   ProductandCategoryModel.belongsTo(models.ProductsModel, {
     foreignKey: 'product_id',

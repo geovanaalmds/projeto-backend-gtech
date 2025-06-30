@@ -2,8 +2,9 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
 const bcrypt = require('bcrypt');
 
-const saltRounds = 10; //salt
+const saltRounds = 10; //número de rounds do salt
 
+//Modelo de usuário
 const UserModel = sequelize.define('User', {
   id: { 
     type: DataTypes.INTEGER, 
@@ -30,13 +31,16 @@ const UserModel = sequelize.define('User', {
 }, {
   tableName: 'users',
   timestamps: true,
-  hooks: {   //hash
+  //Hooks para o hash da senha
+  hooks: {   
+    //Antes de criar o usuário, aplica o hash
     beforeCreate: async (user) => {
       if (user.password) {
         const hash = await bcrypt.hash(user.password, saltRounds);
         user.password = hash;
       }
     },
+    // Antes de atualizar, verifica se a senha mudou
     beforeUpdate: async (user) => {
       if (user.changed('password')) {
         const hash = await bcrypt.hash(user.password, saltRounds);
